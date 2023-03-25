@@ -1,20 +1,29 @@
+import { User } from "@prisma/client";
 import { prisma } from "../config/database";
 
-async function findOwner(email: string, token: string) {
+async function findByEmail(email: string): Promise<OwnerUser> {
   return prisma.user.findFirst({
     where: {
-      AND: {
-        email,
-        PossesorToken: {
-          token
+      email
+    },
+    include: {
+      OwnerToken: {
+        select: {
+          token: true
         }
       }
     }
   });
 }
 
+export type OwnerUser = User & {
+  OwnerToken: {
+    token: string;
+  };
+};
+
 const userRepository = {
-  findOwner
+  findByEmail
 };
 
 export default userRepository;

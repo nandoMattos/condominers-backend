@@ -1,4 +1,4 @@
-import { PossesorToken, User } from "@prisma/client";
+import { OwnerToken, User } from "@prisma/client";
 import Joi from "joi";
 
 export const signUpSchema = Joi.object({
@@ -19,4 +19,4 @@ export const signInOnwerSchema = signInSchema.keys({
 export type SignUpParams = Pick<User, "name" | "email" | "password">;
 export type SignInParams = Pick<User, "email" | "password">;
 export type SignInOwnerPamars = Pick<User, "email" | "password"> &
-  Pick<PossesorToken, "token">;
+  Pick<OwnerToken, "token">;

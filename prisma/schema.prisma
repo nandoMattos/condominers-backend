@@ -13,7 +13,7 @@ datasource db {
 model User {
   id                Int                 @id @default(autoincrement())
   name              String              @db.VarChar(100)
-  email             String              @db.Text
+  email             String              @unique @db.Text
   password          String              @db.Text
   role              Role
   Apartament        Apartament?         @relation(fields: [apartamentId], references: [id])
@@ -23,6 +23,11 @@ model User {
   Report            Report[]
   RentSpace         RentSpace[]
   MaintenaceRequest MaintenaceRequest[]
+}
+
+enum Role {
+  OWNER
+  RESIDENT
 }
 
 model Apartament {
@@ -82,9 +87,4 @@ model MaintenaceRequest {
   userId       Int
   Apartament   Apartament @relation(fields: [apartamentId], references: [id])
   apartamentId Int
-}
-
-enum Role {
-  OWNER
-  RESIDENT
 }
