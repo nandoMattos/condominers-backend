@@ -30,4 +30,10 @@ export function handleApplicationErrors(
       message: err.message
     });
   }
+
+  if (err.name === "ConflictError") {
+    return res.status(httpStatus.CONFLICT).send({
+      message: err.message
+    });
+  }
 }

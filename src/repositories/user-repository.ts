@@ -1,7 +1,7 @@
 import { User } from "@prisma/client";
 import { prisma } from "../config/database";
 
-async function findByEmail(email: string): Promise<OwnerUser> {
+function findByEmail(email: string): Promise<OwnerUser> {
   return prisma.user.findFirst({
     where: {
       email
@@ -16,6 +16,21 @@ async function findByEmail(email: string): Promise<OwnerUser> {
   });
 }
 
+async function insertResident(
+  name: string,
+  email: string,
+  password: string
+): Promise<User> {
+  return prisma.user.create({
+    data: {
+      name,
+      email,
+      password,
+      role: "RESIDENT"
+    }
+  });
+}
+
 export type OwnerUser = User & {
   OwnerToken: {
     token: string;
@@ -23,7 +38,8 @@ export type OwnerUser = User & {
 };
 
 const userRepository = {
-  findByEmail
+  findByEmail,
+  insertResident
 };
 
 export default userRepository;
