@@ -1,8 +1,14 @@
 import { Router } from "express";
-import { signInOwner } from "../controllers/auth-controller";
+import { signInAsOwner } from "../controllers/auth-controller";
+import { bodyValidation } from "../middlewares/validation-middleware";
+import { signInOnwerSchema } from "../models/authentication-schema";
 
 const authRouter = Router();
 
-authRouter.get("/sign-in-owner", signInOwner);
+authRouter.post(
+  "/sign-in/owner",
+  bodyValidation(signInOnwerSchema),
+  signInAsOwner
+);
 
 export default authRouter;
