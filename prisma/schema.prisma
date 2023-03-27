@@ -10,6 +10,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Building {
+  id           Int            @id @default(autoincrement())
+  name         String         @unique @db.VarChar(100)
+  Address      Address        @relation(fields: [addressId], references: [id])
+  addressId    Int            @unique
+  Owner        User           @relation(fields: [userId], references: [id])
+  userId       Int            @unique
+  Apartament   Apartament[]
+  ParkingLot   ParkingLot[]
+  LeisureSpace LeisureSpace[]
+}
+
+model Address {
+  id         Int       @id @default(autoincrement())
+  street     String    @db.VarChar(100)
+  number     String    @db.VarChar(10)
+  district   String    @db.VarChar(100)
+  complement String    @db.VarChar(100)
+  city       String    @db.VarChar(100)
+  Building   Building?
+}
+
 model User {
   id                Int                 @id @default(autoincrement())
   name              String              @db.VarChar(100)
@@ -23,6 +45,7 @@ model User {
   Report            Report[]
   RentSpace         RentSpace[]
   MaintenaceRequest MaintenaceRequest[]
+  Building          Building?
 }
 
 enum Role {
@@ -38,13 +61,17 @@ model Apartament {
   suits_amount      Int
   User              User[]
   MaintenaceRequest MaintenaceRequest[]
+  Building          Building            @relation(fields: [buildingId], references: [id])
+  buildingId        Int
 }
 
 model ParkingLot {
-  id     Int    @id @default(autoincrement())
-  name   String @db.VarChar(20)
-  User   User?  @relation(fields: [userId], references: [id])
-  userId Int    @unique
+  id         Int      @id @default(autoincrement())
+  name       String   @db.VarChar(20)
+  User       User?    @relation(fields: [userId], references: [id])
+  userId     Int?     @unique
+  Building   Building @relation(fields: [buildingId], references: [id])
+  buildingId Int
 }
 
 model OwnerToken {
@@ -68,6 +95,8 @@ model LeisureSpace {
   daily_rent Int
   capacity   Int
   RentSpace  RentSpace[]
+  Building   Building    @relation(fields: [buildingId], references: [id])
+  buildingId Int
 }
 
 model RentSpace {

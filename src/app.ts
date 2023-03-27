@@ -1,8 +1,7 @@
 import express, { Express } from "express";
 import cors from "cors";
 import { connectDB, disconnectDB } from "./config/database";
-import authRouter from "./routers/authorization-router";
-import { v4 as uuid } from "uuid";
+import authRouter from "./routers/auth-router";
 
 const app = express();
 
@@ -11,8 +10,6 @@ app
   .use(express.json())
   .get("/health", (req, res) => {
     res.send("OK!");
-    const token = uuid();
-    console.log(token);
   })
   .use("/auth", authRouter);
 
