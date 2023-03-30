@@ -14,7 +14,7 @@ async function signInOwner(
 ): Promise<SignInResult> {
   const user = await userService.findOnwerUserOrFail(email);
 
-  await validatePasswordOrFail(password, user.password);
+  validatePasswordOrFail(password, user.password);
 
   validateOwnerTokenOrFail(token, user.OwnerToken.token);
 
@@ -60,7 +60,10 @@ async function signUpResident(
 
 async function signInResident(email: string, password: string) {
   const user = await userRepository.findByEmail(email);
-  await validatePasswordOrFail(password, user.password);
+
+  if (!user) throw invalidCredentialsError();
+
+  validatePasswordOrFail(password, user.password);
 
   const jwToken = createSession({ userId: user.id });
 
@@ -75,8 +78,9 @@ async function signInResident(email: string, password: string) {
   };
 }
 
-async function validatePasswordOrFail(password: string, userPassword: string) {
-  const isPasswordValid = await bcrypt.compare(password, userPassword);
+function validatePasswordOrFail(password: string, userPassword: string) {
+  const isPasswordValid = bcrypt.compareSync(password, userPassword);
+
   if (!isPasswordValid) throw invalidCredentialsError();
 }
 

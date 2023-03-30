@@ -4,7 +4,6 @@ import {
   signInAsResident,
   signUpAsRedident
 } from "../controllers/auth-controller";
-import {} from "../middlewares/authentication-middleware";
 import { bodyValidation } from "../middlewares/validation-middleware";
 import {
   signInOnwerSchema,
