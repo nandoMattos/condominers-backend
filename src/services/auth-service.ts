@@ -1,7 +1,6 @@
 import userService from "./user-service";
 import bcrypt from "bcrypt";
 import { invalidCredentialsError } from "../errors/invalid-credentials-error";
-import { forbiddenError } from "../errors/forbidden-error";
 import jwt from "jsonwebtoken";
 import userRepository, { OwnerUser } from "../repositories/user-repository";
 import { conflictError } from "../errors/conflict-error";
@@ -14,8 +13,6 @@ async function signInOwner(
 ): Promise<SignInResult> {
   const user = await userService.findOnwerUserOrFail(email);
 
-  validatePasswordOrFail(password, user.password);
-
   validateOwnerTokenOrFail(token, user.OwnerToken.token);
 
   const jwToken = createSession({
@@ -25,7 +22,9 @@ async function signInOwner(
 
   const userRes = {
     id: user.id,
-    email: user.email
+    email: user.email,
+    name: user.name,
+    ownerToken: user.OwnerToken.token
   };
 
   return {
@@ -69,7 +68,8 @@ async function signInResident(email: string, password: string) {
 
   const userRes = {
     id: user.id,
-    email: user.email
+    email: user.email,
+    name: user.name
   };
 
   return {
@@ -86,7 +86,7 @@ function validatePasswordOrFail(password: string, userPassword: string) {
 
 function validateOwnerTokenOrFail(givenToken: string, dbToken: string) {
   if (givenToken != dbToken) {
-    throw forbiddenError();
+    throw invalidCredentialsError();
   }
 }
 

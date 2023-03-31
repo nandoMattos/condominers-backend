@@ -1,10 +1,10 @@
 import { Response } from "express";
 import httpStatus from "http-status";
 import { handleApplicationErrors } from "../helpers/error-handling";
-import { AuethenticatedRequest } from "../middlewares/authentication-middleware";
+import { AuthenticatedRequest } from "../middlewares/authentication-middleware";
 import residentService from "../services/resident-service";
 
-export async function getResident(req: AuethenticatedRequest, res: Response) {
+export async function getResident(req: AuthenticatedRequest, res: Response) {
   try {
     const userId = Number(req.params.id);
     if (isNaN(userId)) {
@@ -20,7 +20,7 @@ export async function getResident(req: AuethenticatedRequest, res: Response) {
 }
 
 export async function getAllResidents(
-  req: AuethenticatedRequest,
+  req: AuthenticatedRequest,
   res: Response
 ) {
   try {

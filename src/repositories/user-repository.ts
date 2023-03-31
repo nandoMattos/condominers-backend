@@ -84,6 +84,21 @@ function findAllResidents() {
   });
 }
 
+function getOnwerTokenByUserId(userId: number) {
+  return prisma.user.findFirst({
+    where: {
+      id: userId
+    },
+    select: {
+      OwnerToken: {
+        select: {
+          token: true
+        }
+      }
+    }
+  });
+}
+
 export type OwnerUser = User & {
   OwnerToken: {
     token: string;
@@ -94,7 +109,8 @@ const userRepository = {
   findByEmail,
   insertResident,
   findResidentById,
-  findAllResidents
+  findAllResidents,
+  getOnwerTokenByUserId
 };
 
 export default userRepository;

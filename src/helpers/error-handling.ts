@@ -36,4 +36,6 @@ export function handleApplicationErrors(
       message: err.message
     });
   }
+
+  return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
 }

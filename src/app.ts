@@ -3,15 +3,17 @@ import cors from "cors";
 import { connectDB, disconnectDB } from "./config/database";
 import authRouter from "./routers/auth-router";
 import residentRouter from "./routers/resident-router";
+import apartamentRouter from "./routers/apartament-router";
 
 const app = express();
 
 app
   .use(cors())
   .use(express.json())
-  .get("/health", (req, res) => res.send("OK!"))
+  .get("/health", (req, res) => res.send("ok!"))
   .use("/auth", authRouter)
-  .use("/residents", residentRouter);
+  .use("/residents", residentRouter)
+  .use("/apartaments", apartamentRouter);
 
 export function init(): Promise<Express> {
   connectDB();

@@ -2,9 +2,11 @@ import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
 import { unauthorizedError } from "../errors/unauthorized-error";
 import jwt from "jsonwebtoken";
+import userRepository from "../repositories/user-repository";
+import { forbiddenError } from "../errors/forbidden-error";
 
 export async function authenticateToken(
-  req: AuethenticatedRequest,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ) {
@@ -25,11 +27,34 @@ export async function authenticateToken(
   return next();
 }
 
+export async function authenticateAdmin(
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+) {
+  const givenToken = req.ownerToken;
+  const userId = req.userId;
+
+  if (!givenToken) return generateForbiddenResponse(res);
+
+  const { OwnerToken } = await userRepository.getOnwerTokenByUserId(userId);
+
+  if (givenToken !== OwnerToken.token) {
+    return generateForbiddenResponse(res);
+  }
+
+  return next();
+}
+
 function generateUnauthorizedResponse(res: Response) {
   res.status(httpStatus.UNAUTHORIZED).send(unauthorizedError());
 }
 
-export type AuethenticatedRequest = Request & JWTPAyload;
+function generateForbiddenResponse(res: Response) {
+  res.status(httpStatus.FORBIDDEN).send(forbiddenError());
+}
+
+export type AuthenticatedRequest = Request & JWTPAyload;
 
 type JWTPAyload = {
   userId: number;

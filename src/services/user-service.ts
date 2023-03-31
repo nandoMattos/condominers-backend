@@ -1,4 +1,3 @@
-import { forbiddenError } from "../errors/forbidden-error";
 import { invalidCredentialsError } from "../errors/invalid-credentials-error";
 import userRepository, { OwnerUser } from "../repositories/user-repository";
 
@@ -10,7 +9,7 @@ async function findOnwerUserOrFail(email: string): Promise<OwnerUser> {
   }
 
   if (user.role !== "OWNER") {
-    throw forbiddenError();
+    throw invalidCredentialsError();
   }
 
   return user;
