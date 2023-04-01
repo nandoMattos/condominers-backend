@@ -30,12 +30,12 @@ function findResidentById(userId: number) {
       name: true,
       Apartament: {
         select: {
-          id: true,
-          name: true
-        }
-      },
-      Building: {
-        select: {
+          Building: {
+            select: {
+              id: true,
+              name: true
+            }
+          },
           id: true,
           name: true
         }
@@ -99,6 +99,27 @@ function getOnwerTokenByUserId(userId: number) {
   });
 }
 
+function findOwnerById(userId: number) {
+  return prisma.user.findFirst({
+    where: {
+      AND: {
+        id: userId,
+        role: "OWNER"
+      }
+    },
+    select: {
+      id: true,
+      email: true,
+      name: true,
+      Building: {
+        select: {
+          name: true
+        }
+      }
+    }
+  });
+}
+
 export type OwnerUser = User & {
   OwnerToken: {
     token: string;
@@ -110,7 +131,8 @@ const userRepository = {
   insertResident,
   findResidentById,
   findAllResidents,
-  getOnwerTokenByUserId
+  getOnwerTokenByUserId,
+  findOwnerById
 };
 
 export default userRepository;

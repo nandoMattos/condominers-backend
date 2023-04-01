@@ -1,7 +1,7 @@
 import { prisma } from "../config/database";
 
 function findApartamentById(apartamentId: number) {
-  return prisma.apartament.findFirst({
+  return prisma.apartament.findUnique({
     where: {
       id: apartamentId
     }

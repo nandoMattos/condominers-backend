@@ -12,7 +12,7 @@ const apartamentRouter = Router();
 
 apartamentRouter
   .use("/*", authenticateToken)
-  .get("/invitation/:jwt", joinApartament)
+  .post("/invitation/:jwt", joinApartament)
   .use("/*", authenticateAdmin)
   .get("/:id/generate-invite", createInvitationLink);
 

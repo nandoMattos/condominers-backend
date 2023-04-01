@@ -1,10 +1,10 @@
-import userService from "./user-service";
 import bcrypt from "bcrypt";
 import { invalidCredentialsError } from "../errors/invalid-credentials-error";
 import jwt from "jsonwebtoken";
 import userRepository, { OwnerUser } from "../repositories/user-repository";
 import { conflictError } from "../errors/conflict-error";
 import { User } from "@prisma/client";
+import userService from "./user-service";
 
 async function signInOwner(
   email: string,

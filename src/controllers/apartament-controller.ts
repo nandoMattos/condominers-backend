@@ -9,8 +9,8 @@ export async function joinApartament(req: AuthenticatedRequest, res: Response) {
   const userId = req.userId;
 
   try {
-    const link = await apartamentService.joinApartament(jwToken, userId);
-    res.status(httpStatus.PERMANENT_REDIRECT).redirect(link);
+    await apartamentService.joinApartament(jwToken, userId);
+    res.sendStatus(httpStatus.OK);
   } catch (err) {
     handleApplicationErrors(err, req, res);
   }

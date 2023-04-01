@@ -13,14 +13,9 @@ import {
 
 const authRouter = Router();
 
-authRouter.post(
-  "/sign-in/owner",
-  bodyValidation(signInOnwerSchema),
-  signInAsOwner
-);
-
-authRouter.post("/sign-up", bodyValidation(signUpSchema), signUpAsRedident);
-
-authRouter.post("/sign-in", bodyValidation(signInSchema), signInAsResident);
+authRouter
+  .post("/sign-in/owner", bodyValidation(signInOnwerSchema), signInAsOwner)
+  .post("/sign-up", bodyValidation(signUpSchema), signUpAsRedident)
+  .post("/sign-in", bodyValidation(signInSchema), signInAsResident);
 
 export default authRouter;

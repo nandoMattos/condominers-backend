@@ -14,8 +14,12 @@ async function createLink(apartamentId: number) {
 
   if (!apartament) throw notFoundError();
 
-  const token = jwt.sign({ apartamentId }, process.env.JWT_SECRET);
-  const link = `${process.env.API_URL}/apartaments/invitation/${token}`;
+  const token = jwt
+    .sign({ apartamentId }, process.env.JWT_SECRET)
+    .replace(".", "*")
+    .replace(".", "*");
+
+  const link = `${process.env.FRONT_URL}/apartaments/invitation/${token}`;
   return link;
 }
 
@@ -29,8 +33,6 @@ async function joinApartament(jwToken: string, userId: number) {
   if (!apartament) throw notFoundError();
 
   await apartamentRepository.connectUserToApartament(apartamentId, userId);
-
-  return `${process.env.FRONT_URL}/`;
 }
 
 const apartamentService = {
