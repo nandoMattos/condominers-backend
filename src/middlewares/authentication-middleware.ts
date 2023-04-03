@@ -4,6 +4,8 @@ import { unauthorizedError } from "../errors/unauthorized-error";
 import jwt from "jsonwebtoken";
 import userRepository from "../repositories/user-repository";
 import { forbiddenError } from "../errors/forbidden-error";
+import { handleApplicationErrors } from "../helpers/error-handling";
+import apartamentService from "../services/apartament-service";
 
 export async function authenticateToken(
   req: AuthenticatedRequest,
@@ -44,6 +46,15 @@ export async function authenticateAdmin(
   }
 
   return next();
+}
+
+export async function getApartaments(req: AuthenticatedRequest, res: Response) {
+  try {
+    const apartaments = await apartamentService.findAll();
+    res.status(httpStatus.OK).send(apartaments);
+  } catch (err) {
+    handleApplicationErrors(err, req, res);
+  }
 }
 
 function generateUnauthorizedResponse(res: Response) {

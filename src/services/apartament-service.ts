@@ -1,6 +1,9 @@
 import jwt from "jsonwebtoken";
 import { notFoundError } from "../errors/not-found-error";
-import apartamentRepository from "../repositories/apartament-repository";
+import apartamentRepository, {
+  ApartamentWihUsers
+} from "../repositories/apartament-repository";
+import { conflictError } from "../errors/conflict-error";
 
 type LinkPayload = {
   iat: number;
@@ -8,11 +11,13 @@ type LinkPayload = {
 };
 
 async function createLink(apartamentId: number) {
-  const apartament = await apartamentRepository.findApartamentById(
+  const apartament = await apartamentRepository.findApartamentByIdWithUsers(
     apartamentId
   );
 
   if (!apartament) throw notFoundError();
+
+  verifyCapacityOrFail(apartament);
 
   const token = jwt
     .sign({ apartamentId }, process.env.JWT_SECRET)
@@ -29,15 +34,32 @@ async function joinApartament(jwToken: string, userId: number) {
     process.env.JWT_SECRET
   ) as LinkPayload;
 
-  const apartament = apartamentRepository.findApartamentById(apartamentId);
+  const apartament = await apartamentRepository.findApartamentByIdWithUsers(
+    apartamentId
+  );
   if (!apartament) throw notFoundError();
+
+  verifyCapacityOrFail(apartament);
 
   await apartamentRepository.connectUserToApartament(apartamentId, userId);
 }
 
+async function findAll() {
+  return await apartamentRepository.findAllWithUsersAndRequests();
+}
+
+function verifyCapacityOrFail(apartament: ApartamentWihUsers) {
+  const availableVacancies =
+    apartament.bedrooms_amount + apartament.suits_amount;
+  if (availableVacancies <= apartament._count.User) {
+    throw conflictError("No vacancies avaliable");
+  }
+}
+
 const apartamentService = {
   createLink,
-  joinApartament
+  joinApartament,
+  findAll
 };
 
 export default apartamentService;

@@ -9,9 +9,9 @@ export function createApartament(params: Partial<Apartament> = {}) {
       bathrooms_amount:
         params.bathrooms_amount || faker.datatype.number({ min: 1, max: 3 }),
       bedrooms_amount:
-        params.bedrooms_amount || faker.datatype.number({ min: 1, max: 5 }),
+        params.bedrooms_amount || faker.datatype.number({ min: 1, max: 3 }),
       suits_amount:
-        params.suits_amount || faker.datatype.number({ min: 1, max: 5 }),
+        params.suits_amount || faker.datatype.number({ min: 1, max: 2 }),
       Building: {
         connect: {
           id: params.buildingId

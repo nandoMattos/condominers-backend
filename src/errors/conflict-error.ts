@@ -3,6 +3,6 @@ import { ApplicationError } from "../protocols";
 export function conflictError(message?: string): ApplicationError {
   return {
     name: "ConflictError",
-    message: "Email already registered." || message
+    message: message || "Email already registered."
   };
 }

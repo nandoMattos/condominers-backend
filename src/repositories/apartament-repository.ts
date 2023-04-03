@@ -1,9 +1,19 @@
+import { Apartament } from "@prisma/client";
 import { prisma } from "../config/database";
 
-function findApartamentById(apartamentId: number) {
+function findApartamentByIdWithUsers(
+  apartamentId: number
+): Promise<ApartamentWihUsers> {
   return prisma.apartament.findUnique({
     where: {
       id: apartamentId
+    },
+    include: {
+      _count: {
+        select: {
+          User: true
+        }
+      }
     }
   });
 }
@@ -23,9 +33,40 @@ function connectUserToApartament(apartamentId: number, userId: number) {
   });
 }
 
+function findAllWithUsersAndRequests(): Promise<ApartamentsInfo[]> {
+  return prisma.apartament.findMany({
+    include: {
+      _count: {
+        select: {
+          User: true,
+          MaintenaceRequest: true
+        }
+      }
+    },
+
+    orderBy: {
+      name: "asc"
+    }
+  });
+}
+
+export type ApartamentWihUsers = Apartament & {
+  _count: {
+    User: number;
+  };
+};
+
+export type ApartamentsInfo = Apartament & {
+  _count: {
+    User: number;
+    MaintenaceRequest: number;
+  };
+};
+
 const apartamentRepository = {
-  findApartamentById,
-  connectUserToApartament
+  findApartamentByIdWithUsers,
+  connectUserToApartament,
+  findAllWithUsersAndRequests
 };
 
 export default apartamentRepository;

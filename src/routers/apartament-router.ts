@@ -1,7 +1,8 @@
 import { Router } from "express";
 import {
   authenticateAdmin,
-  authenticateToken
+  authenticateToken,
+  getApartaments
 } from "../middlewares/authentication-middleware";
 import {
   createInvitationLink,
@@ -14,6 +15,7 @@ apartamentRouter
   .use("/*", authenticateToken)
   .post("/invitation/:jwt", joinApartament)
   .use("/*", authenticateAdmin)
+  .get("/", getApartaments)
   .get("/:id/generate-invite", createInvitationLink);
 
 export default apartamentRouter;
