@@ -33,3 +33,12 @@ export async function createInvitationLink(
     handleApplicationErrors(err, req, res);
   }
 }
+
+export async function getApartaments(req: AuthenticatedRequest, res: Response) {
+  try {
+    const apartaments = await apartamentService.findAll();
+    res.status(httpStatus.OK).send(apartaments);
+  } catch (err) {
+    handleApplicationErrors(err, req, res);
+  }
+}

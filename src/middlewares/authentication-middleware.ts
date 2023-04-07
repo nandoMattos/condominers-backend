@@ -4,8 +4,6 @@ import { unauthorizedError } from "../errors/unauthorized-error";
 import jwt from "jsonwebtoken";
 import userRepository from "../repositories/user-repository";
 import { forbiddenError } from "../errors/forbidden-error";
-import { handleApplicationErrors } from "../helpers/error-handling";
-import apartamentService from "../services/apartament-service";
 
 export async function authenticateToken(
   req: AuthenticatedRequest,
@@ -18,15 +16,18 @@ export async function authenticateToken(
   const token = authHeader.split(" ")[1];
   if (!token) return generateUnauthorizedResponse(res);
 
-  const { userId, ownerToken } = jwt.verify(
-    token,
-    process.env.JWT_SECRET
-  ) as JWTPAyload;
+  try {
+    const { userId, ownerToken } = jwt.verify(
+      token,
+      process.env.JWT_SECRET
+    ) as JWTPAyload;
+    req.userId = userId;
+    if (ownerToken) req.ownerToken = ownerToken;
 
-  req.userId = userId;
-  if (ownerToken) req.ownerToken = ownerToken;
-
-  return next();
+    return next();
+  } catch (err) {
+    res.status(440).send("Your token has expired");
+  }
 }
 
 export async function authenticateAdmin(
@@ -46,15 +47,6 @@ export async function authenticateAdmin(
   }
 
   return next();
-}
-
-export async function getApartaments(req: AuthenticatedRequest, res: Response) {
-  try {
-    const apartaments = await apartamentService.findAll();
-    res.status(httpStatus.OK).send(apartaments);
-  } catch (err) {
-    handleApplicationErrors(err, req, res);
-  }
 }
 
 function generateUnauthorizedResponse(res: Response) {

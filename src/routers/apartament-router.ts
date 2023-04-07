@@ -1,11 +1,11 @@
 import { Router } from "express";
 import {
   authenticateAdmin,
-  authenticateToken,
-  getApartaments
+  authenticateToken
 } from "../middlewares/authentication-middleware";
 import {
   createInvitationLink,
+  getApartaments,
   joinApartament
 } from "../controllers/apartament-controller";
 
