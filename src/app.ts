@@ -5,6 +5,7 @@ import authRouter from "./routers/auth-router";
 import residentRouter from "./routers/resident-router";
 import apartamentRouter from "./routers/apartament-router";
 import ownerRouter from "./routers/owner-router";
+import maintenanceRouter from "./routers/maintenante-router";
 
 const app = express();
 
@@ -15,7 +16,8 @@ app
   .use("/auth", authRouter)
   .use("/residents", residentRouter)
   .use("/owners", ownerRouter)
-  .use("/apartaments", apartamentRouter);
+  .use("/apartaments", apartamentRouter)
+  .use("/maintenance", maintenanceRouter);
 
 export function init(): Promise<Express> {
   connectDB();

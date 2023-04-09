@@ -8,6 +8,7 @@ export function createLeisureSpace(params: Partial<LeisureSpace> = {}) {
       name: params.name,
       capacity: faker.datatype.number({ min: 20, max: 100 }),
       daily_rent: faker.datatype.number({ min: 3000, max: 100000 }),
+      image_url: params.image_url,
       Building: {
         connect: {
           id: params.buildingId

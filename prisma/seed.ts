@@ -32,14 +32,22 @@ async function main() {
   }
 
   await createLeisureSpace({
-    name: "Área de lazer: Churrasqueira + Piscina",
+    name: "Churrasqueira + Piscina",
     daily_rent: 10000,
-    buildingId: building.id
+    buildingId: building.id,
+    image_url: "https://st3.depositphotos.com/1230300/36748/i/1600/depositphotos_367488642-stock-photo-balcony-terrace-of-a-modern.jpg"
+  });
+
+  await createLeisureSpace({
+    name: "Sala de jogos",
+    daily_rent: 8000,
+    buildingId: building.id,
+    image_url: "https://www.decorfacil.com/wp-content/uploads/2018/02/20180225sala-de-jogos-28.jpg"
   });
 }
 main()
   //eslint-disable-next-line
-  .then(() => console.log("Owner user created successfully"))
+  .then(() => console.log("Successfull seed!"))
   .catch((err) => {
     //eslint-disable-next-line
     console.log(err);

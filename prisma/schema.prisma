@@ -20,6 +20,8 @@ model Building {
   Apartament   Apartament[]
   ParkingLot   ParkingLot[]
   LeisureSpace LeisureSpace[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Address {
@@ -30,6 +32,8 @@ model Address {
   complement String    @db.VarChar(100)
   city       String    @db.VarChar(100)
   Building   Building?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model User {
@@ -44,8 +48,10 @@ model User {
   OwnerToken        OwnerToken?
   Report            Report[]
   RentSpace         RentSpace[]
-  MaintenaceRequest MaintenaceRequest[]
+  MaintenanceRequest MaintenanceRequest[]
   Building          Building?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum Role {
@@ -60,9 +66,11 @@ model Apartament {
   bathrooms_amount  Int
   suits_amount      Int
   User              User[]
-  MaintenaceRequest MaintenaceRequest[]
+  MaintenanceRequest MaintenanceRequest[]
   Building          Building            @relation(fields: [buildingId], references: [id])
   buildingId        Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model ParkingLot {
@@ -72,6 +80,8 @@ model ParkingLot {
   userId     Int?     @unique
   Building   Building @relation(fields: [buildingId], references: [id])
   buildingId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model OwnerToken {
@@ -79,6 +89,8 @@ model OwnerToken {
   token  String @db.Text
   User   User   @relation(fields: [userId], references: [id])
   userId Int    @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Report {
@@ -87,6 +99,8 @@ model Report {
   User        User    @relation(fields: [userId], references: [id])
   userId      Int
   solved      Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model LeisureSpace {
@@ -97,6 +111,9 @@ model LeisureSpace {
   RentSpace  RentSpace[]
   Building   Building    @relation(fields: [buildingId], references: [id])
   buildingId Int
+  image_url String 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model RentSpace {
@@ -106,9 +123,11 @@ model RentSpace {
   userId         Int
   LeisureSpace   LeisureSpace @relation(fields: [leisureSpaceId], references: [id])
   leisureSpaceId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-model MaintenaceRequest {
+model MaintenanceRequest {
   id           Int        @id @default(autoincrement())
   description  String     @db.Text
   solved       Boolean    @default(false)
@@ -116,4 +135,6 @@ model MaintenaceRequest {
   userId       Int
   Apartament   Apartament @relation(fields: [apartamentId], references: [id])
   apartamentId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

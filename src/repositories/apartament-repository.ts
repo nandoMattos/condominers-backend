@@ -39,11 +39,10 @@ function findAllWithUsersAndRequests(): Promise<ApartamentsInfo[]> {
       _count: {
         select: {
           User: true,
-          MaintenaceRequest: true
+          MaintenanceRequest: true
         }
       }
     },
-
     orderBy: {
       name: "asc"
     }
@@ -59,7 +58,7 @@ export type ApartamentWihUsers = Apartament & {
 export type ApartamentsInfo = Apartament & {
   _count: {
     User: number;
-    MaintenaceRequest: number;
+    MaintenanceRequest: number;
   };
 };
 
