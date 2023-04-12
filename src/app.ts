@@ -7,6 +7,7 @@ import apartamentRouter from "./routers/apartament-router";
 import ownerRouter from "./routers/owner-router";
 import maintenanceRouter from "./routers/maintenante-router";
 import leisureSpaceRouter from "./routers/leisureSpace-router";
+import reportRouter from "./routers/report-router";
 
 const app = express();
 
@@ -19,7 +20,8 @@ app
   .use("/owners", ownerRouter)
   .use("/apartaments", apartamentRouter)
   .use("/maintenance", maintenanceRouter)
-  .use("/leisure-spaces", leisureSpaceRouter);
+  .use("/leisure-spaces", leisureSpaceRouter)
+  .use("/reports", reportRouter);
 
 export function init(): Promise<Express> {
   connectDB();

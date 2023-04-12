@@ -13,11 +13,20 @@ function findById(spaceId: number){
 }
 
 function findAllRentsBySpaceId(spaceId: number) {
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  yesterday.toDateString();
+
   return prisma.rentSpace.findMany({
     where: {
-      LeisureSpace:{
-        id: spaceId
-      },
+      AND:{
+        LeisureSpace:{
+          id: spaceId
+        },
+        day_rent: {
+          gte: yesterday
+        }
+      }
     }
   });
 }

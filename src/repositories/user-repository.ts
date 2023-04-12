@@ -120,6 +120,14 @@ function findOwnerById(userId: number) {
   });
 }
 
+export function findById(userId: number){
+  return prisma.user.findUnique({
+    where: {
+      id: userId
+    }
+  });
+}
+
 export type OwnerUser = User & {
   OwnerToken: {
     token: string;
@@ -132,7 +140,8 @@ const userRepository = {
   findResidentById,
   findAllResidents,
   getOnwerTokenByUserId,
-  findOwnerById
+  findOwnerById,
+  findById
 };
 
 export default userRepository;
