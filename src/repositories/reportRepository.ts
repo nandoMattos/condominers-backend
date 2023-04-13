@@ -13,6 +13,9 @@ function findAllByUserId(userId: number) {
   return prisma.report.findMany({
     where: {
       userId
+    },
+    orderBy:{
+      createdAt:"desc"
     }
   });
 }

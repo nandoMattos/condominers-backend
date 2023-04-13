@@ -35,7 +35,7 @@ async function main() {
     name: "Churrasqueira + Piscina",
     daily_rent: 10000,
     buildingId: building.id,
-    image_url: "https://st3.depositphotos.com/1230300/36748/i/1600/depositphotos_367488642-stock-photo-balcony-terrace-of-a-modern.jpg"
+    image_url: "https://casatemporada.com/uploads/anuncios/fotos/779495754ae5344b03f9eda15c7b1863.jpg"
   });
 
   await createLeisureSpace({

@@ -41,11 +41,26 @@ function insertRentSpace(userId:number, spaceId: number, day_rent: Date) {
   });
 }
 
+function findAllRentsByUserId(userId:number) {
+  return prisma.rentSpace.findMany({
+    where: {
+      userId
+    },
+    include:{
+      LeisureSpace: true
+    },
+    orderBy:{
+      day_rent:"desc"
+    }
+  });
+}
+
 const leisureSpaceRepository = {
   findAll,
   findById,
   findAllRentsBySpaceId,
-  insertRentSpace
+  insertRentSpace,
+  findAllRentsByUserId
 }; 
 
 export default leisureSpaceRepository;
