@@ -20,3 +20,13 @@ export async function getUserRequests(req: AuthenticatedRequest, res: Response) 
   }
 
 }
+
+export async function getAllRequests(req:AuthenticatedRequest, res:Response) {
+  try{
+    const allRequests = await requestService.getAllRequests();
+    res.status(httpStatus.OK).send(allRequests);
+  }catch(err ){
+    handleApplicationErrors(err, req, res);
+  }
+
+}

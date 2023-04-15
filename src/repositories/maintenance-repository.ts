@@ -25,9 +25,26 @@ function findAllByUserId(userId:number) {
   });
 }
 
+function findAll() {
+  return prisma.maintenanceRequest.findMany({
+    include: {
+      Apartament: true
+    },
+    orderBy: [
+      {
+        solved: "asc"
+      },
+      {
+        updatedAt:"desc"
+      }
+    ]
+  });
+}
+
 const maintenanceRepository = {
   insertMaintenance,
-  findAllByUserId
+  findAllByUserId,
+  findAll
 };
 
 export default maintenanceRepository;

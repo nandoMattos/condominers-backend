@@ -30,8 +30,17 @@ async function getUserRequests(userId:number, paramUserId: number, adminToken: s
   return requests;
 }
 
+async function getAllRequests() {
+  const Maintenances = await maintenanceRepository.findAll();
+  const Reports = await reportRepository.findAll();
+
+
+  return {Maintenances, Reports};
+}
+
 const requestService = {
-  getUserRequests
+  getUserRequests,
+  getAllRequests
 };
 
 export default requestService;

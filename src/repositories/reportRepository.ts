@@ -20,9 +20,23 @@ function findAllByUserId(userId: number) {
   });
 }
 
+function findAll() {
+  return prisma.report.findMany({
+    orderBy: [
+      {
+        solved: "asc"
+      },
+      {
+        updatedAt:"desc"
+      }
+    ]
+  });
+}
+
 const reportRepository = {
   insertReport,
-  findAllByUserId
+  findAllByUserId,
+  findAll
 };
 
 export default reportRepository;
