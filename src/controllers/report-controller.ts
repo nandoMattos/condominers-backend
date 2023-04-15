@@ -32,3 +32,15 @@ export async function getUserReports(req:AuthenticatedRequest, res: Response) {
     handleApplicationErrors(err, req, res);
   }
 }
+
+export async function setReportAsSolved(req: AuthenticatedRequest, res:Response) {
+  const reportId = Number(req.params.reportId);
+  if (isNaN(reportId)) return res.sendStatus(httpStatus.BAD_REQUEST);
+
+  try{
+    const solved = await reportService.markAsSolved(reportId);
+    res.status(httpStatus.OK).send(solved);
+  }catch(err) {
+    handleApplicationErrors(err, req ,res);
+  }
+}

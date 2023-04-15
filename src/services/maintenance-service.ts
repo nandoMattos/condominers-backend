@@ -24,8 +24,16 @@ async function getApartamentOrFail(apartamentId: number) {
   if (!apartament) throw notFoundError();
 }
 
+async function markAsSolved(maintenanceId: number){
+  const request = await maintenanceRepository.findById(maintenanceId);
+  if(!request) throw notFoundError();
+
+  return await maintenanceRepository.updateToSolved(maintenanceId);
+}
+
 const maintenanceService = {
-  postMaintenance
+  postMaintenance,
+  markAsSolved
 };
 
 export default maintenanceService;

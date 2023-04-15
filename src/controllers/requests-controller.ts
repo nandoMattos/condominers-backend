@@ -28,5 +28,4 @@ export async function getAllRequests(req:AuthenticatedRequest, res:Response) {
   }catch(err ){
     handleApplicationErrors(err, req, res);
   }
-
 }

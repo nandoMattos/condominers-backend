@@ -22,9 +22,17 @@ async function getUserReports(userId:number, paramUserId:number, adminToken: str
   return reportRepository.findAllByUserId(paramUserId);
 }
 
+async function markAsSolved(reportId: number) {
+  const report = await reportRepository.findById(reportId);
+  if(!report) throw notFoundError();
+
+  return reportRepository.updateToSolved(reportId);
+}
+
 const reportService = {
   postReport,
-  getUserReports
+  getUserReports,
+  markAsSolved
 };
 
 export default reportService;

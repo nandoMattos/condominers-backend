@@ -5,7 +5,7 @@ import {
 } from "../middlewares/authentication-middleware";
 import { bodyValidation } from "../middlewares/validation-middleware";
 import { maintenanceSchema } from "../models/maintenance-schema";
-import { postMaintenance } from "../controllers/maintenance-router";
+import { postMaintenance } from "../controllers/maintenance-controller";
 
 const maintenanceRouter = Router();
 

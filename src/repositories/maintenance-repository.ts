@@ -41,10 +41,31 @@ function findAll() {
   });
 }
 
+function findById(id:number) {
+  return prisma.maintenanceRequest.findUnique({
+    where: {
+      id
+    }
+  });
+}
+
+function updateToSolved(id:number) {
+  return prisma.maintenanceRequest.update({
+    data:{
+      solved: true
+    },
+    where: {
+      id
+    }
+  });
+}
+
 const maintenanceRepository = {
   insertMaintenance,
   findAllByUserId,
-  findAll
+  findAll,
+  findById,
+  updateToSolved
 };
 
 export default maintenanceRepository;

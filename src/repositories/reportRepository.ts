@@ -33,10 +33,31 @@ function findAll() {
   });
 }
 
+function findById(id:number){
+  return prisma.report.findUnique({
+    where: {
+      id
+    }
+  });
+}
+
+function updateToSolved(id: number) {
+  return prisma.report.update({
+    where: {
+      id
+    },
+    data: {
+      solved: true
+    }
+  });
+}
+
 const reportRepository = {
   insertReport,
   findAllByUserId,
-  findAll
+  findAll,
+  findById,
+  updateToSolved
 };
 
 export default reportRepository;

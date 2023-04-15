@@ -23,3 +23,15 @@ export async function postMaintenance(
     handleApplicationErrors(err, req, res);
   }
 }
+
+export async function setMaintenanceAsSolved(req: AuthenticatedRequest, res: Response){
+  const maintenanceId = Number(req.params.maintenanceId);
+  if(isNaN(maintenanceId)) return res.sendStatus(httpStatus.BAD_REQUEST);
+
+  try{
+    const solved = await maintenanceService.markAsSolved(maintenanceId);
+    res.status(httpStatus.OK).send(solved);
+  }catch(err) {
+    handleApplicationErrors(err, req, res);
+  }
+}
