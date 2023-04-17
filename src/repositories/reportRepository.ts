@@ -22,6 +22,13 @@ function findAllByUserId(userId: number) {
 
 function findAll() {
   return prisma.report.findMany({
+    include: {
+      User:{
+        select:{
+          name:true
+        }
+      }
+    },
     orderBy: [
       {
         solved: "asc"

@@ -23,10 +23,18 @@ async function postRentSpace(userId: number,spaceId:number, day_rent: Date) {
   return await leisureSpaceRepository.insertRentSpace(userId, spaceId, day_rent);
 }
 
+async function getSpaceHistoricById(spaceId: number) {
+  const space = await leisureSpaceRepository.findById(spaceId);
+  if(!space) throw notFoundError();
+
+  return await leisureSpaceRepository.findHistoricById(spaceId);
+}
+
 const leisureSpaceService = {
   getAllSpaces,
   getScheduleById,
-  postRentSpace
+  postRentSpace,
+  getSpaceHistoricById
 };
 
 export default leisureSpaceService;

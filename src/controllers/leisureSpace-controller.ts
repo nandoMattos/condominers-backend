@@ -44,3 +44,16 @@ export async function postRent(req: AuthenticatedRequest, res: Response) {
     handleApplicationErrors(err, req, res);
   }
 }
+
+export async function getSpaceHistoric(req: AuthenticatedRequest, res: Response){
+  const spaceId = Number(req.params.id);
+  if(isNaN(spaceId)) return res.sendStatus(httpStatus.BAD_REQUEST);
+
+  try{
+    const spaceHistoric = await leisureSpaceService.getSpaceHistoricById(spaceId);
+    res.status(httpStatus.OK).send(spaceHistoric);
+  } catch(err ) {
+    handleApplicationErrors(err, req, res);
+  }
+
+}
