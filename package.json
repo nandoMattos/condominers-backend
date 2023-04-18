@@ -5,11 +5,12 @@
   "main": "src/server.ts",
   "scripts": {
     "build": "tsc",
-    "start": "npm run prisma:migrate:deploy && node dist/src/server.js",
+    "start": "npm run prisma:migrate:dev && npm run dev node dist/src/server.js",
     "dev": "dotenv -e .env.development",
     "test": "dotenv -e .env.test",
-    "test:migration:run": "npm run test prisma migrate deploy",
-    "test:migration:generate": "npm run test prisma migrate dev",
+    "prisma:migrate:dev": "npm run dev prisma migrate dev",
+    "prisma:migrate:deploy": "npm run dev prisma migrate deploy",
+    "test:migration:deploy": "npm run test prisma migrate deploy",
     "test:run": "npm run test jest",
     "dev:run": "npm run dev npx nodemon src/server.ts",
     "prisma:seed": "npm run dev npx prisma db seed"
