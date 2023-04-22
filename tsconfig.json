@@ -10,7 +10,8 @@
     "moduleResolution": "node"
   },
   "ts-node": {
-    "esm": true
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
   },
   "rootDirs": [
     "src",
